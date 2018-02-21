@@ -6,14 +6,6 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp1
 {
-    class figure
-    {
-
-
-    }
-
-
-
     static class Program
     {
         [STAThread]
