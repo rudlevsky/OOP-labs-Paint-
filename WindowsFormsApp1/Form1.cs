@@ -20,6 +20,7 @@ namespace WindowsFormsApp1
         Ellipse ellipse1;
         Rectang rect1;
         Round rond1;
+        Oval oval1;
 
         public Form1()
         {
@@ -38,6 +39,7 @@ namespace WindowsFormsApp1
             ellipse1 = new Ellipse(250, 290, 200, 150);
             rect1 = new Rectang(200, 50, 250, 150);
             rond1 = new Round(10, 250, 200, 200);
+            oval1 = new Oval(510, 270, 100, 200);
         }
 
         //Запуск на рисование объектов
@@ -46,8 +48,9 @@ namespace WindowsFormsApp1
             line1.draw(line1, pen1, graph);
             rect1.draw(rect1, pen1, graph);
             square1.draw(square1, pen1, graph);
-            graph.DrawEllipse(pen1, ellipse1.point_x, ellipse1.point_y, ellipse1.wigth, ellipse1.heigth);
-            graph.DrawEllipse(pen1, rond1.point_x, rond1.point_y, rond1.wigth, rond1.heigth);
+            ellipse1.draw(ellipse1, pen1, graph);
+            rond1.draw(rond1, pen1, graph);
+            oval1.draw(oval1, pen1, graph);
             picture.Image = bmp;
         }
 

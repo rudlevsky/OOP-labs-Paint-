@@ -20,15 +20,5 @@ namespace WindowsFormsApp1
             this.wigth = wigth;
         }
 
-        public void draw(Rectang obj, Pen pen, Graphics graph)
-        {
-            graph.DrawRectangle(pen, obj.point_x, obj.point_y, obj.point_x, obj.point_y);
-        }
-
-        public void draw(square obj, Pen pen, Graphics graph)
-        {
-            graph.DrawRectangle(pen, obj.point_x, obj.point_y, obj.point_x, obj.point_y);
-        }
-
     }
 }
