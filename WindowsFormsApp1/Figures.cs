@@ -9,15 +9,15 @@ namespace WindowsFormsApp1
 {
     class Figures
     {
-        public int point_x, point_y;
-        public int heigth, wigth;
+        public int point_x1, point_y1;
+        public int point_x2, point_y2;
 
-        public Figures(int point_x, int point_y, int wigth, int heigth)
+        public Figures(int point_x1, int point_y1, int point_x2, int point_y2)
         {
-            this.point_x = point_x;
-            this.point_y = point_y;
-            this.heigth = heigth;
-            this.wigth = wigth;
+            this.point_x1 = point_x1;
+            this.point_y1 = point_y1;
+            this.point_x2 = point_x2;
+            this.point_y2 = point_y2;
         }
 
     }

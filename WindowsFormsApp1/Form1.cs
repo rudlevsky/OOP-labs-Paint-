@@ -16,7 +16,7 @@ namespace WindowsFormsApp1
         Graphics graph; 
         Pen pen1;
         Line line1;
-        square square1;
+        Square square1;
         Ellipse ellipse1;
         Rectang rect1;
         Round rond1;
@@ -35,22 +35,22 @@ namespace WindowsFormsApp1
             graph = Graphics.FromImage(bmp);
             pen1 = new Pen(Color.Blue);
             line1 = new Line(10, 50, 150, 200);
-            square1 = new square(500, 50, 150, 150);
-            ellipse1 = new Ellipse(250, 290, 200, 150);
-            rect1 = new Rectang(200, 50, 250, 150);
-            rond1 = new Round(10, 250, 200, 200);
-            oval1 = new Oval(510, 270, 100, 200);
+            square1 = new Square(500, 50, 650, 200);
+            rect1 = new Rectang(200, 50, 450, 170);
+            rond1 = new Round(10, 250, 210, 450);
+            ellipse1 = new Ellipse(250, 290, 500, 390);
+            oval1 = new Oval(510, 270, 610, 470);
         }
 
         //Запуск на рисование объектов
         private void start_Click(object sender, EventArgs e)
         {
-            line1.draw(line1, pen1, graph);
-            rect1.draw(rect1, pen1, graph);
-            square1.draw(square1, pen1, graph);
-            ellipse1.draw(ellipse1, pen1, graph);
-            rond1.draw(rond1, pen1, graph);
-            oval1.draw(oval1, pen1, graph);
+            line1.draw(pen1, graph);
+            rect1.draw(pen1, graph);
+            square1.draw(pen1, graph);
+            ellipse1.draw(pen1, graph);
+            rond1.draw(pen1, graph);
+            oval1.draw(pen1, graph);
             picture.Image = bmp;
         }
 

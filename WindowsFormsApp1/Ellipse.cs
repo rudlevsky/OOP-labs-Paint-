@@ -9,13 +9,17 @@ namespace WindowsFormsApp1
 {
     class Ellipse: Figures
     {
-        public Ellipse(int point_x, int point_y, int wigth, int heigth) : base(point_x, point_y, wigth, heigth)
+        private int heigth, width;
+
+        public Ellipse(int point_x1, int point_y1, int point_x2, int point_y2) : base(point_x1, point_y1, point_x2, point_y2)
         {
         }
 
-        public void draw(Ellipse obj, Pen pen, Graphics graph)
+        public void draw(Pen pen, Graphics graph)
         {
-            graph.DrawEllipse(pen, obj.point_x, obj.point_y, obj.wigth, obj.heigth);
+            heigth = point_y2 - point_y1;
+            width = point_x2 - point_x1;
+            graph.DrawEllipse(pen, point_x1, point_y1, width, heigth);
         }
     }
 }
