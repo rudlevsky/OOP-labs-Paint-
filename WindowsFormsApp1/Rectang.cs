@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace WindowsFormsApp1
 {
-    class Rectang: Figures
+    public class Rectang: Figures
     {
         private int heigth, width;
 

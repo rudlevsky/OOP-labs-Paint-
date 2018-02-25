@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace WindowsFormsApp1
 {
-    class Ellipse: Figures
+    public class Ellipse: Figures
     {
         private int heigth, width;
 

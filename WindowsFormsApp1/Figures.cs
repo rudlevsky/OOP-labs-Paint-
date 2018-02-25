@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace WindowsFormsApp1
 {
-    class Figures
+    public class Figures
     {
         public int point_x1, point_y1;
         public int point_x2, point_y2;

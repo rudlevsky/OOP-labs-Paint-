@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace WindowsFormsApp1
 {
-    class Round: Figures
+    public class Round: Figures
     {
         private int heigth, width;
 

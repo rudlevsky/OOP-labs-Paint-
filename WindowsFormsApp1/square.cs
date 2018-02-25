@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace WindowsFormsApp1
 {
-    class Square: Figures
+    public class Square: Figures
     {
         private int heigth, width;
 

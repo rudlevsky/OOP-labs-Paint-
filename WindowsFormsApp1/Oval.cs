@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace WindowsFormsApp1
 {
-    class Oval: Figures
+    public class Oval: Figures
     {
         private int heigth, width;
 
