@@ -11,10 +11,6 @@ namespace WindowsFormsApp1
     {
         private int heigth, width;
 
-        public Ellipse(int point_x1, int point_y1, int point_x2, int point_y2) : base(point_x1, point_y1, point_x2, point_y2)
-        {
-        }
-
         public void draw(Pen pen, Graphics graph)
         {
             heigth = point_y2 - point_y1;
