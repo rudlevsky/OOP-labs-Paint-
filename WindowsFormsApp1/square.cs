@@ -11,11 +11,13 @@ namespace WindowsFormsApp1
     {
         private int heigth, width;
 
-        public void draw(Pen pen, Graphics graph, int point_x, int point_y, int point_x2, int point_y2)
+        public void draw(Pen pen, Graphics graph)
         {
-            //heigth = point_y2 - point_y;
-            //width = point_x2 - point_x;
-            graph.DrawRectangle(pen, point_x, point_y, width, heigth);
+            heigth = point_y2 - point_y1;
+            width = point_x2 - point_x1;
+            graph.DrawRectangle(pen, point_x1, point_y1, width, heigth);
+            pen.Dispose();
+            graph.Dispose();
         }
     }
 }

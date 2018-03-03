@@ -11,8 +11,5 @@ namespace WindowsFormsApp1
     {
         public int point_x1, point_y1;
         public int point_x2, point_y2;
-
-  
-
     }
 }

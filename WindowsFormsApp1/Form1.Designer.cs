@@ -29,80 +29,31 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.picture = new System.Windows.Forms.PictureBox();
             this.clear = new System.Windows.Forms.Button();
-            this.red = new System.Windows.Forms.Label();
-            this.green = new System.Windows.Forms.Label();
-            this.blue = new System.Windows.Forms.Label();
-            this.yellow = new System.Windows.Forms.Label();
             this.pen = new System.Windows.Forms.PictureBox();
             this.trackBar = new System.Windows.Forms.TrackBar();
             this.square = new System.Windows.Forms.PictureBox();
             this.oval = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.picture)).BeginInit();
+            this.picture = new System.Windows.Forms.PictureBox();
+            this.change = new System.Windows.Forms.Button();
+            this.line = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.square)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.oval)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.line)).BeginInit();
             this.SuspendLayout();
-            // 
-            // picture
-            // 
-            this.picture.BackColor = System.Drawing.Color.White;
-            this.picture.Location = new System.Drawing.Point(31, 29);
-            this.picture.Name = "picture";
-            this.picture.Size = new System.Drawing.Size(671, 495);
-            this.picture.TabIndex = 0;
-            this.picture.TabStop = false;
-            this.picture.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picture_MouseDown);
-            this.picture.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picture_MouseMove);
-            this.picture.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picture_MouseUp);
             // 
             // clear
             // 
-            this.clear.Location = new System.Drawing.Point(732, 338);
+            this.clear.Location = new System.Drawing.Point(732, 412);
             this.clear.Name = "clear";
             this.clear.Size = new System.Drawing.Size(109, 31);
             this.clear.TabIndex = 2;
-            this.clear.Text = "Clean";
+            this.clear.Text = "Clear";
             this.clear.UseVisualStyleBackColor = true;
             this.clear.Click += new System.EventHandler(this.clear_Click);
-            // 
-            // red
-            // 
-            this.red.BackColor = System.Drawing.Color.Red;
-            this.red.Location = new System.Drawing.Point(817, 175);
-            this.red.Name = "red";
-            this.red.Size = new System.Drawing.Size(24, 23);
-            this.red.TabIndex = 3;
-            this.red.Click += new System.EventHandler(this.red_Click);
-            // 
-            // green
-            // 
-            this.green.BackColor = System.Drawing.Color.Green;
-            this.green.Location = new System.Drawing.Point(817, 214);
-            this.green.Name = "green";
-            this.green.Size = new System.Drawing.Size(24, 23);
-            this.green.TabIndex = 4;
-            this.green.Click += new System.EventHandler(this.green_Click);
-            // 
-            // blue
-            // 
-            this.blue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.blue.Location = new System.Drawing.Point(817, 254);
-            this.blue.Name = "blue";
-            this.blue.Size = new System.Drawing.Size(24, 23);
-            this.blue.TabIndex = 5;
-            this.blue.Click += new System.EventHandler(this.blue_Click);
-            // 
-            // yellow
-            // 
-            this.yellow.BackColor = System.Drawing.Color.Yellow;
-            this.yellow.Location = new System.Drawing.Point(817, 295);
-            this.yellow.Name = "yellow";
-            this.yellow.Size = new System.Drawing.Size(24, 23);
-            this.yellow.TabIndex = 6;
-            this.yellow.Click += new System.EventHandler(this.yellow_Click);
             // 
             // pen
             // 
@@ -146,19 +97,51 @@
             this.oval.TabStop = false;
             this.oval.Click += new System.EventHandler(this.oval_Click);
             // 
+            // picture
+            // 
+            this.picture.BackColor = System.Drawing.Color.White;
+            this.picture.Location = new System.Drawing.Point(31, 29);
+            this.picture.Name = "picture";
+            this.picture.Size = new System.Drawing.Size(671, 495);
+            this.picture.TabIndex = 0;
+            this.picture.TabStop = false;
+            this.picture.Paint += new System.Windows.Forms.PaintEventHandler(this.picture_Paint);
+            this.picture.MouseDown += new System.Windows.Forms.MouseEventHandler(this.picture_MouseDown);
+            this.picture.MouseMove += new System.Windows.Forms.MouseEventHandler(this.picture_MouseMove);
+            this.picture.MouseUp += new System.Windows.Forms.MouseEventHandler(this.picture_MouseUp);
+            // 
+            // change
+            // 
+            this.change.Location = new System.Drawing.Point(732, 363);
+            this.change.Name = "change";
+            this.change.Size = new System.Drawing.Size(109, 33);
+            this.change.TabIndex = 11;
+            this.change.Text = "Change color";
+            this.change.UseVisualStyleBackColor = true;
+            this.change.Click += new System.EventHandler(this.change_Click);
+            // 
+            // line
+            // 
+            this.line.Image = ((System.Drawing.Image)(resources.GetObject("line.Image")));
+            this.line.Location = new System.Drawing.Point(800, 175);
+            this.line.Name = "line";
+            this.line.Size = new System.Drawing.Size(55, 47);
+            this.line.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.line.TabIndex = 12;
+            this.line.TabStop = false;
+            this.line.Click += new System.EventHandler(this.line_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(867, 548);
+            this.Controls.Add(this.line);
+            this.Controls.Add(this.change);
             this.Controls.Add(this.oval);
             this.Controls.Add(this.square);
             this.Controls.Add(this.trackBar);
             this.Controls.Add(this.pen);
-            this.Controls.Add(this.yellow);
-            this.Controls.Add(this.blue);
-            this.Controls.Add(this.green);
-            this.Controls.Add(this.red);
             this.Controls.Add(this.clear);
             this.Controls.Add(this.picture);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -167,28 +150,26 @@
             this.Name = "Form1";
             this.ShowIcon = false;
             this.Text = "Drawing";
-            ((System.ComponentModel.ISupportInitialize)(this.picture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.square)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.oval)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.line)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox picture;
         private System.Windows.Forms.Button clear;
-        private System.Windows.Forms.Label red;
-        private System.Windows.Forms.Label green;
-        private System.Windows.Forms.Label blue;
-        private System.Windows.Forms.Label yellow;
         private System.Windows.Forms.PictureBox pen;
         private System.Windows.Forms.TrackBar trackBar;
         private System.Windows.Forms.PictureBox square;
         private System.Windows.Forms.PictureBox oval;
+        private System.Windows.Forms.PictureBox picture;
+        private System.Windows.Forms.Button change;
+        private System.Windows.Forms.PictureBox line;
     }
 }
 
