@@ -13,11 +13,11 @@ namespace WindowsFormsApp1
     public partial class Form1 : Form
     {
         Bitmap bmp, tempDraw;
-        Graphics graph;
         Pen pen1;
         Line line1;
         Square square1;
         Ellipse ellipse1;
+        Triangle triangle1;
         Color pencolor;
 
         bool mouseDown = false;
@@ -37,6 +37,7 @@ namespace WindowsFormsApp1
             line1 = new Line();
             square1 = new Square();
             ellipse1 = new Ellipse();
+            triangle1 = new Triangle();
             pencolor = Color.Red;
         }
 
@@ -87,6 +88,11 @@ namespace WindowsFormsApp1
         private void line_Click(object sender, EventArgs e)
         {
             name_tool = "line";
+        }
+
+        private void triangle_Click(object sender, EventArgs e)
+        {
+            name_tool = "triangle";
         }
 
         //Выбор цвета элементов
@@ -142,8 +148,17 @@ namespace WindowsFormsApp1
                             e.Graphics.DrawImageUnscaled(tempDraw, 0, 0);
                         }
                         break;
+                    case "triangle":
+                        if (tempDraw != null)
+                        {
+                            tempDraw = (Bitmap)bmp.Clone();
+                            Graphics graph = Graphics.FromImage(tempDraw);
+                            pen1 = new Pen(pencolor, pen_width);
+                            triangle1.draw(pen1, graph);
+                            e.Graphics.DrawImageUnscaled(tempDraw, 0, 0);
+                        }
+                        break;
                 }
-            
         }
 
         private void picture_MouseUp(object sender, MouseEventArgs e)
@@ -173,11 +188,15 @@ namespace WindowsFormsApp1
                         square1.point_x1 = e.X;
                         square1.point_y1 = e.Y;
                         break;
+                    case "triangle":
+                        triangle1.point_x1 = e.X;
+                        triangle1.point_y1 = e.Y;
+                        break;
                 }
             }
             tempDraw = (Bitmap)bmp.Clone();
         }
-        
+
         //Присваиваются координаты последующей позиции
         private void picture_MouseMove(object sender, MouseEventArgs e)
         {
@@ -198,6 +217,10 @@ namespace WindowsFormsApp1
                         case "square":
                             square1.point_x2 = e.X;
                             square1.point_y2 = e.Y;
+                            break;
+                        case "triangle":
+                            triangle1.point_x2 = e.X;
+                            triangle1.point_y2 = e.Y;
                             break;
                     }
                 }

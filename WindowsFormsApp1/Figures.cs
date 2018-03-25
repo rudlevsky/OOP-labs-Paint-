@@ -7,9 +7,10 @@ using System.Drawing;
 
 namespace WindowsFormsApp1
 {
-    public class Figures
+    public abstract class Figures
     {
         public int point_x1, point_y1;
         public int point_x2, point_y2;
+        public abstract void draw(Pen pen, Graphics graph);
     }
 }

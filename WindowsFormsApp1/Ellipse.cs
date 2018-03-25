@@ -11,7 +11,7 @@ namespace WindowsFormsApp1
     {
         private int heigth, width;
 
-        public void draw(Pen pen, Graphics graph)
+        public override void draw(Pen pen, Graphics graph)
         {
             heigth = point_y2 - point_y1;
             width = point_x2 - point_x1;

@@ -37,12 +37,14 @@
             this.picture = new System.Windows.Forms.PictureBox();
             this.change = new System.Windows.Forms.Button();
             this.line = new System.Windows.Forms.PictureBox();
+            this.triangle = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.square)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.oval)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.line)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.triangle)).BeginInit();
             this.SuspendLayout();
             // 
             // clear
@@ -131,11 +133,23 @@
             this.line.TabStop = false;
             this.line.Click += new System.EventHandler(this.line_Click);
             // 
+            // triangle
+            // 
+            this.triangle.Image = ((System.Drawing.Image)(resources.GetObject("triangle.Image")));
+            this.triangle.Location = new System.Drawing.Point(800, 230);
+            this.triangle.Name = "triangle";
+            this.triangle.Size = new System.Drawing.Size(55, 47);
+            this.triangle.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.triangle.TabIndex = 13;
+            this.triangle.TabStop = false;
+            this.triangle.Click += new System.EventHandler(this.triangle_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(867, 548);
+            this.Controls.Add(this.triangle);
             this.Controls.Add(this.line);
             this.Controls.Add(this.change);
             this.Controls.Add(this.oval);
@@ -156,6 +170,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.oval)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.line)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.triangle)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -170,6 +185,7 @@
         private System.Windows.Forms.PictureBox picture;
         private System.Windows.Forms.Button change;
         private System.Windows.Forms.PictureBox line;
+        private System.Windows.Forms.PictureBox triangle;
     }
 }
 
