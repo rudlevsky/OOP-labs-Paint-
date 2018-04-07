@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Runtime.Serialization.Json;
+using System.Runtime.Serialization;
 
 namespace WindowsFormsApp1
 {
@@ -19,6 +21,9 @@ namespace WindowsFormsApp1
         Ellipse ellipse1;
         Triangle triangle1;
         Color pencolor;
+        List<BitSaver> lenta;
+        Serializer serializer1;
+        BitSaver BitSave,BitSavet;
 
         bool mouseDown = false;
         private int pen_width;
@@ -39,11 +44,14 @@ namespace WindowsFormsApp1
             ellipse1 = new Ellipse();
             triangle1 = new Triangle();
             pencolor = Color.Red;
+            serializer1 = new Serializer();
+            lenta = new List<BitSaver>();
         }
 
         //Очистка поля для рисования
         private void clear_Click(object sender, EventArgs e)
         {
+            bmp.Dispose();
             bmp = new Bitmap(picture.Width, picture.Height);
         }
 
@@ -165,6 +173,9 @@ namespace WindowsFormsApp1
         {
             mouseDown = false;
             bmp = (Bitmap)tempDraw.Clone();                       //Новое изображение сохраняется в текущее
+            BitSave = new BitSaver();
+            BitSave.to_set(bmp);
+            lenta.Add(BitSave);
         }
 
         //Присваиваются координаты текущей позиции 
@@ -197,11 +208,43 @@ namespace WindowsFormsApp1
             tempDraw = (Bitmap)bmp.Clone();
         }
 
+        private void btn_serialize_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog()
+            {
+                Filter = "JSON files | *.json",
+                FileName = "bookList.json"
+            };
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                serializer1.to_Serialize(dlg.FileName, lenta);
+            }
+            dlg.Dispose();
+        }
+
+        private void btn_Deserializer_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog()
+            {
+                Filter = "JSON files | *.json"
+            };
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                lenta.Clear();
+                lenta = serializer1.Deserialize(dlg.FileName);
+                bmp.Dispose();
+                bmp = new Bitmap(picture.Width, picture.Height);
+                bmp = (Bitmap)lenta[1].to_get().Clone();
+                picture.Refresh();
+            }
+            dlg.Dispose();
+        }
+
         //Присваиваются координаты последующей позиции
         private void picture_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mouseDown) {
-
+            if (mouseDown)
+            {
                 if ((name_tool == "line") || (name_tool =="pen")) {
                     line1.point_x2 = e.X;
                     line1.point_y2 = e.Y;

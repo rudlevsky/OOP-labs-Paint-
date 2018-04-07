@@ -38,6 +38,10 @@
             this.change = new System.Windows.Forms.Button();
             this.line = new System.Windows.Forms.PictureBox();
             this.triangle = new System.Windows.Forms.PictureBox();
+            this.btn_serialize = new System.Windows.Forms.Button();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.btn_Deserializer = new System.Windows.Forms.Button();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.pen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.square)).BeginInit();
@@ -114,7 +118,7 @@
             // 
             // change
             // 
-            this.change.Location = new System.Drawing.Point(732, 363);
+            this.change.Location = new System.Drawing.Point(732, 373);
             this.change.Name = "change";
             this.change.Size = new System.Drawing.Size(109, 33);
             this.change.TabIndex = 11;
@@ -144,11 +148,37 @@
             this.triangle.TabStop = false;
             this.triangle.Click += new System.EventHandler(this.triangle_Click);
             // 
+            // btn_serialize
+            // 
+            this.btn_serialize.Location = new System.Drawing.Point(732, 449);
+            this.btn_serialize.Name = "btn_serialize";
+            this.btn_serialize.Size = new System.Drawing.Size(109, 31);
+            this.btn_serialize.TabIndex = 14;
+            this.btn_serialize.Text = "Serialize";
+            this.btn_serialize.UseVisualStyleBackColor = true;
+            this.btn_serialize.Click += new System.EventHandler(this.btn_serialize_Click);
+            // 
+            // btn_Deserializer
+            // 
+            this.btn_Deserializer.Location = new System.Drawing.Point(732, 486);
+            this.btn_Deserializer.Name = "btn_Deserializer";
+            this.btn_Deserializer.Size = new System.Drawing.Size(109, 31);
+            this.btn_Deserializer.TabIndex = 15;
+            this.btn_Deserializer.Text = "Deserialize";
+            this.btn_Deserializer.UseVisualStyleBackColor = true;
+            this.btn_Deserializer.Click += new System.EventHandler(this.btn_Deserializer_Click);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.FileName = "openFileDialog1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(867, 548);
+            this.Controls.Add(this.btn_Deserializer);
+            this.Controls.Add(this.btn_serialize);
             this.Controls.Add(this.triangle);
             this.Controls.Add(this.line);
             this.Controls.Add(this.change);
@@ -186,6 +216,10 @@
         private System.Windows.Forms.Button change;
         private System.Windows.Forms.PictureBox line;
         private System.Windows.Forms.PictureBox triangle;
+        private System.Windows.Forms.Button btn_serialize;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private System.Windows.Forms.Button btn_Deserializer;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }
 
