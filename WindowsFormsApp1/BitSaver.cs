@@ -26,9 +26,7 @@ namespace WindowsFormsApp1
         public Bitmap to_get()
         {
             ImageConverter ic = new ImageConverter();
-
             Image img = (Image)ic.ConvertFrom(saver);
-
             Bitmap bitmap1 = new Bitmap(img);
 
            /* Bitmap bit;

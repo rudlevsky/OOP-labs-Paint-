@@ -23,11 +23,14 @@ namespace WindowsFormsApp1
         Color pencolor;
         List<BitSaver> lenta;
         Serializer serializer1;
-        BitSaver BitSave,BitSavet;
+        BitSaver BitSave;
 
-        bool mouseDown = false;
+        private bool mouseDown = false;
         private int pen_width;
-        string name_tool;
+        private string name_tool;
+        private readonly byte[] mas = {0, 3, 5, 6, 8};
+        private int stack = 0;
+        private byte count = 3;
 
         public Form1()
         {
@@ -53,6 +56,7 @@ namespace WindowsFormsApp1
         {
             bmp.Dispose();
             bmp = new Bitmap(picture.Width, picture.Height);
+
         }
 
         //Выбор ширины для рисования
@@ -61,19 +65,19 @@ namespace WindowsFormsApp1
            switch(trackBar.Value)
            {
                 case 0:
-                    pen_width = 0;
+                    pen_width = mas[0];
                     break;
                 case 1:
-                    pen_width = 3;
+                    pen_width = mas[1];
                     break;
                 case 2:
-                    pen_width = 5;
+                    pen_width = mas[2];
                     break;
                 case 3:
-                    pen_width = 6;
+                    pen_width = mas[3];
                     break;
                 case 4:
-                    pen_width = 8;
+                    pen_width = mas[4];
                     break;
            }
         }
@@ -172,10 +176,33 @@ namespace WindowsFormsApp1
         private void picture_MouseUp(object sender, MouseEventArgs e)
         {
             mouseDown = false;
-            bmp = (Bitmap)tempDraw.Clone();                       //Новое изображение сохраняется в текущее
-            BitSave = new BitSaver();
-            BitSave.to_set(bmp);
-            lenta.Add(BitSave);
+            if (count == 3)
+            {
+                bmp = (Bitmap)tempDraw.Clone();                       //Новое изображение сохраняется в текущее
+                BitSave = new BitSaver();
+                BitSave.to_set(bmp);
+                lenta.Add(BitSave);
+                stack = lenta.Count;
+            }
+            else
+                count++;
+
+            if (count == 2)
+            {
+                if (stack < lenta.Count)
+                {
+                    bmp = (Bitmap)tempDraw.Clone();                       //Новое изображение сохраняется в текущее
+                    BitSave = new BitSaver();
+                    BitSave.to_set(bmp);
+
+                    for (int i = lenta.Count - 1; i > stack; i--)
+                    {
+                        lenta.RemoveAt(i);
+                    }
+                    lenta.Add(BitSave);
+                }
+                count++;
+            }
         }
 
         //Присваиваются координаты текущей позиции 
@@ -213,7 +240,7 @@ namespace WindowsFormsApp1
             SaveFileDialog dlg = new SaveFileDialog()
             {
                 Filter = "JSON files | *.json",
-                FileName = "bookList.json"
+                FileName = "file.json"
             };
             if (dlg.ShowDialog() == DialogResult.OK)
             {
@@ -234,10 +261,37 @@ namespace WindowsFormsApp1
                 lenta = serializer1.Deserialize(dlg.FileName);
                 bmp.Dispose();
                 bmp = new Bitmap(picture.Width, picture.Height);
-                bmp = (Bitmap)lenta[1].to_get().Clone();
-                picture.Refresh();
+                bmp = (Bitmap)lenta[lenta.Count-1].to_get().Clone();
+                stack = lenta.Count;
             }
             dlg.Dispose();
+        }
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Z)
+            {
+                if (stack != 1)
+                {
+                    stack--;
+                    bmp.Dispose();
+                    bmp = new Bitmap(picture.Width, picture.Height);
+                    bmp = (Bitmap)lenta[stack - 1].to_get().Clone();
+                    count = 0;
+                }
+            }
+
+            if (e.KeyData == Keys.Y)
+            {
+                if (stack != lenta.Count)
+                {
+                    stack++;
+                    bmp.Dispose();
+                    bmp = new Bitmap(picture.Width, picture.Height);
+                    bmp = (Bitmap)lenta[stack - 1].to_get().Clone();
+                    count = 0;
+                }
+            }
         }
 
         //Присваиваются координаты последующей позиции

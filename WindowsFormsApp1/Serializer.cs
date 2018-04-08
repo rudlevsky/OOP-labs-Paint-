@@ -16,9 +16,10 @@ namespace WindowsFormsApp1
         public void to_Serialize(string file_name, List<BitSaver> lenta)
         {
             DataContractJsonSerializer format = new DataContractJsonSerializer(typeof(List<BitSaver>));
-            FileStream fs = new FileStream(file_name, FileMode.Create);
-            format.WriteObject(fs, lenta);
-            fs.Close();
+            using (FileStream fs = new FileStream(file_name, FileMode.Create))
+            {
+                format.WriteObject(fs, lenta);
+            }
         }
 
         public List<BitSaver> Deserialize(string file_name)
@@ -26,7 +27,6 @@ namespace WindowsFormsApp1
             DataContractJsonSerializer format = new DataContractJsonSerializer(typeof(List<BitSaver>));
             using (FileStream fs = new FileStream(file_name, FileMode.Open))
             {
-
                 return (List<BitSaver>)format.ReadObject(fs);
             }
         }
