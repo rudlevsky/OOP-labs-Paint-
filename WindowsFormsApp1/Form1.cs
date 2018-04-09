@@ -21,34 +21,33 @@ namespace WindowsFormsApp1
         Ellipse ellipse1;
         Triangle triangle1;
         Color pencolor;
-        List<BitSaver> lenta;
-        Serializer serializer1;
-        BitSaver BitSave;
+        List<Figures> flenta = new List<Figures>();
+        Serializer serializer1 = new Serializer();
+        Pens pens;
+
+        private Type[] types = new Type[]
+        {
+            typeof(Pens),
+            typeof(Line),
+            typeof(Ellipse),
+            typeof(Square),
+            typeof(Triangle),
+            typeof(Figures)
+        };
 
         private bool mouseDown = false;
         private int pen_width;
         private string name_tool;
-        private readonly byte[] mas = {0, 3, 5, 6, 8};
+        private readonly byte[] mas = { 0, 3, 5, 6, 8 };
         private int stack = 0;
         private byte count = 3;
+        private bool choose_btn = false;
 
         public Form1()
         {
             InitializeComponent();
-            to_init();
-        }
-
-        //Инициализация объектов
-        private void to_init()
-        {
-            bmp = new Bitmap(picture.Width, picture.Height);
-            line1 = new Line();
-            square1 = new Square();
-            ellipse1 = new Ellipse();
-            triangle1 = new Triangle();
             pencolor = Color.Red;
-            serializer1 = new Serializer();
-            lenta = new List<BitSaver>();
+            bmp = new Bitmap(picture.Width, picture.Height);
         }
 
         //Очистка поля для рисования
@@ -56,7 +55,7 @@ namespace WindowsFormsApp1
         {
             bmp.Dispose();
             bmp = new Bitmap(picture.Width, picture.Height);
-
+            count = 1;
         }
 
         //Выбор ширины для рисования
@@ -117,6 +116,8 @@ namespace WindowsFormsApp1
 
         private void picture_Paint(object sender, PaintEventArgs e)
         {
+            if (!choose_btn)
+            {
                 switch (name_tool)
                 {
                     case "line":
@@ -134,10 +135,10 @@ namespace WindowsFormsApp1
                         {
                             Graphics graph = Graphics.FromImage(tempDraw);
                             pen1 = new Pen(pencolor, pen_width);
-                            line1.draw(pen1, graph);
+                            pens.draw(pen1, graph);
                             e.Graphics.DrawImageUnscaled(tempDraw, 0, 0);
-                            line1.point_x1 = line1.point_x2;
-                            line1.point_y1 = line1.point_y2;
+                            pens.point_x1 = pens.point_x2;
+                            pens.point_y1 = pens.point_y2;
                         }
                         break;
                     case "oval":
@@ -171,6 +172,29 @@ namespace WindowsFormsApp1
                         }
                         break;
                 }
+            }
+        }
+
+        private void to_add(string name_tool)
+        {
+            switch (name_tool)
+            {
+                case "line":
+                    flenta.Add(line1);
+                    break;
+                case "pen":
+                    flenta.Add(pens);
+                    break;
+                case "oval":
+                    flenta.Add(ellipse1);
+                    break;
+                case "square":
+                    flenta.Add(square1);
+                    break;
+                case "triangle":
+                    flenta.Add(triangle1);
+                    break;
+            }
         }
 
         private void picture_MouseUp(object sender, MouseEventArgs e)
@@ -178,28 +202,23 @@ namespace WindowsFormsApp1
             mouseDown = false;
             if (count == 3)
             {
-                bmp = (Bitmap)tempDraw.Clone();                       //Новое изображение сохраняется в текущее
-                BitSave = new BitSaver();
-                BitSave.to_set(bmp);
-                lenta.Add(BitSave);
-                stack = lenta.Count;
+                bmp = (Bitmap)tempDraw.Clone();
+                to_add(name_tool);
+                stack = flenta.Count;
             }
             else
                 count++;
 
             if (count == 2)
             {
-                if (stack < lenta.Count)
+                if (stack < flenta.Count)
                 {
                     bmp = (Bitmap)tempDraw.Clone();                       //Новое изображение сохраняется в текущее
-                    BitSave = new BitSaver();
-                    BitSave.to_set(bmp);
-
-                    for (int i = lenta.Count - 1; i > stack; i--)
+                    for (int i = flenta.Count - 1; i > stack - 1; i--)
                     {
-                        lenta.RemoveAt(i);
+                        flenta.RemoveAt(i);
                     }
-                    lenta.Add(BitSave);
+                    to_add(name_tool);
                 }
                 count++;
             }
@@ -208,31 +227,61 @@ namespace WindowsFormsApp1
         //Присваиваются координаты текущей позиции 
         private void picture_MouseDown(object sender, MouseEventArgs e)
         {
-            mouseDown = true;
-
-            if ((name_tool == "line") || (name_tool == "pen")) {
-                line1.point_x1 = e.X;
-                line1.point_y1 = e.Y;
-            }
-            else
+            if (!choose_btn)
             {
+                mouseDown = true;
                 switch (name_tool)
                 {
+                    case "pen":
+                        pens = new Pens();
+                        pens.pcolor = pencolor;
+                        pens.pen_wid = pen_width;
+                        pens.point_x1 = e.X;
+                        pens.point_y1 = e.Y;
+                        break;
+                    case "line":
+                        line1 = new Line();
+                        line1.pcolor = pencolor;
+                        line1.pen_wid = pen_width;
+                        line1.point_x1 = e.X;
+                        line1.point_y1 = e.Y;
+                        break;
                     case "oval":
+                        ellipse1 = new Ellipse();
+                        ellipse1.pcolor = pencolor;
+                        ellipse1.pen_wid = pen_width;
                         ellipse1.point_x1 = e.X;
                         ellipse1.point_y1 = e.Y;
                         break;
                     case "square":
+                      //  square1 = Square.get();
+                        square1 = new Square();
+                        square1.pcolor = pencolor;
+                        square1.pen_wid = pen_width;
                         square1.point_x1 = e.X;
                         square1.point_y1 = e.Y;
                         break;
                     case "triangle":
+                        triangle1 = new Triangle();
+                        triangle1.pcolor = pencolor;
+                        triangle1.pen_wid = pen_width;
                         triangle1.point_x1 = e.X;
                         triangle1.point_y1 = e.Y;
                         break;
                 }
+                tempDraw = (Bitmap)bmp.Clone();
             }
-            tempDraw = (Bitmap)bmp.Clone();
+            else
+            {
+                for (int i = 0; i < stack; i++)
+                {
+                   // if (typeof(flenta[i]).GetInterface("ISelected")) {
+
+                  //  }
+                }
+                ellipse1.point_x2 = e.X;
+                ellipse1.point_y2 = e.Y;
+            }
         }
 
         private void btn_serialize_Click(object sender, EventArgs e)
@@ -244,9 +293,19 @@ namespace WindowsFormsApp1
             };
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                serializer1.to_Serialize(dlg.FileName, lenta);
+                serializer1.to_Serialize(dlg.FileName, flenta, types);
             }
             dlg.Dispose();
+        }
+
+        private void to_write(List<Figures> flenta, int stack)
+        {
+            for (int i=0; i<stack; i++)
+            {
+                Graphics graph = Graphics.FromImage(bmp);
+                pen1 = new Pen(flenta[i].pcolor, flenta[i].pen_wid);
+                flenta[i].auto_draw(pen1,graph);
+            }
         }
 
         private void btn_Deserializer_Click(object sender, EventArgs e)
@@ -257,12 +316,14 @@ namespace WindowsFormsApp1
             };
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                lenta.Clear();
-                lenta = serializer1.Deserialize(dlg.FileName);
+                choose_btn = false;
+                flenta.Clear();
+                flenta = serializer1.Deserialize(dlg.FileName, types);
+                stack = flenta.Count;
                 bmp.Dispose();
                 bmp = new Bitmap(picture.Width, picture.Height);
-                bmp = (Bitmap)lenta[lenta.Count-1].to_get().Clone();
-                stack = lenta.Count;
+                to_write(flenta, stack);
+                count = 1;
             }
             dlg.Dispose();
         }
@@ -276,40 +337,49 @@ namespace WindowsFormsApp1
                     stack--;
                     bmp.Dispose();
                     bmp = new Bitmap(picture.Width, picture.Height);
-                    bmp = (Bitmap)lenta[stack - 1].to_get().Clone();
+                    to_write(flenta, stack);
                     count = 0;
                 }
             }
 
             if (e.KeyData == Keys.Y)
             {
-                if (stack != lenta.Count)
+                if (stack != flenta.Count)
                 {
                     stack++;
                     bmp.Dispose();
                     bmp = new Bitmap(picture.Width, picture.Height);
-                    bmp = (Bitmap)lenta[stack - 1].to_get().Clone();
+                    to_write(flenta, stack);
                     count = 0;
                 }
             }
         }
 
+        private void Choose_btn_Click(object sender, EventArgs e)
+        {
+            choose_btn = true;
+        }
+
         //Присваиваются координаты последующей позиции
         private void picture_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mouseDown)
+            if (!choose_btn)
             {
-                if ((name_tool == "line") || (name_tool =="pen")) {
-                    line1.point_x2 = e.X;
-                    line1.point_y2 = e.Y;
-                }
-                else
+                if (mouseDown)
                 {
                     switch (name_tool)
                     {
-                         case "oval":
-                            ellipse1.point_x2 = e.X; 
-                            ellipse1.point_y2 = e.Y; 
+                        case "pen":
+                            pens.point_x2 = e.X;
+                            pens.point_y2 = e.Y;
+                            break;
+                        case "line":
+                            line1.point_x2 = e.X;
+                            line1.point_y2 = e.Y;
+                            break;
+                        case "oval":
+                            ellipse1.point_x2 = e.X;
+                            ellipse1.point_y2 = e.Y;
                             break;
                         case "square":
                             square1.point_x2 = e.X;
@@ -320,8 +390,8 @@ namespace WindowsFormsApp1
                             triangle1.point_y2 = e.Y;
                             break;
                     }
+                    picture.Refresh();
                 }
-                picture.Refresh();
             }
         }
 

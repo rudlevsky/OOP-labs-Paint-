@@ -4,12 +4,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Runtime.Serialization.Json;
+using System.Runtime.Serialization;
 
 namespace WindowsFormsApp1
 {
+    [DataContract]
     public class Square: Figures
     {
+        [DataMember]
         private int heigth, width;
+
+     /*   private Square() { }
+        private static Square obj = null;
+        
+        public static Square get()
+        {
+            if (obj == null)
+                obj = new Square();
+            return obj;
+        }*/
 
         public override void draw(Pen pen, Graphics graph)
         {
@@ -19,5 +33,13 @@ namespace WindowsFormsApp1
             pen.Dispose();
             graph.Dispose();
         }
+
+        public override void auto_draw(Pen pen, Graphics graph)
+        {
+            graph.DrawRectangle(pen, point_x1, point_y1, width, heigth);
+            pen.Dispose();
+            graph.Dispose();
+        }
+
     }
 }

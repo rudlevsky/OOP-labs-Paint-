@@ -42,6 +42,7 @@
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.btn_Deserializer = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.Choose_btn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.square)).BeginInit();
@@ -172,11 +173,22 @@
             // 
             this.openFileDialog.FileName = "openFileDialog1";
             // 
+            // Choose_btn
+            // 
+            this.Choose_btn.Location = new System.Drawing.Point(732, 336);
+            this.Choose_btn.Name = "Choose_btn";
+            this.Choose_btn.Size = new System.Drawing.Size(109, 33);
+            this.Choose_btn.TabIndex = 16;
+            this.Choose_btn.Text = "Choose shape";
+            this.Choose_btn.UseVisualStyleBackColor = true;
+            this.Choose_btn.Click += new System.EventHandler(this.Choose_btn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(867, 548);
+            this.Controls.Add(this.Choose_btn);
             this.Controls.Add(this.btn_Deserializer);
             this.Controls.Add(this.btn_serialize);
             this.Controls.Add(this.triangle);
@@ -191,7 +203,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.KeyPreview = true;
             this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "Form1";
             this.ShowIcon = false;
             this.Text = "Drawing";
@@ -222,6 +233,7 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Button btn_Deserializer;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
+        private System.Windows.Forms.Button Choose_btn;
     }
 }
 

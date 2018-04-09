@@ -13,21 +13,21 @@ namespace WindowsFormsApp1
     class Serializer
     {
 
-        public void to_Serialize(string file_name, List<BitSaver> lenta)
+        public void to_Serialize(string file_name, List<Figures> flenta, Type[] types)
         {
-            DataContractJsonSerializer format = new DataContractJsonSerializer(typeof(List<BitSaver>));
+            DataContractJsonSerializer format = new DataContractJsonSerializer(typeof(List<Figures>), types);
             using (FileStream fs = new FileStream(file_name, FileMode.Create))
             {
-                format.WriteObject(fs, lenta);
+                format.WriteObject(fs, flenta);
             }
         }
 
-        public List<BitSaver> Deserialize(string file_name)
+        public List<Figures> Deserialize(string file_name, Type[] types)
         {
-            DataContractJsonSerializer format = new DataContractJsonSerializer(typeof(List<BitSaver>));
+            DataContractJsonSerializer format = new DataContractJsonSerializer(typeof(List<Figures>), types);
             using (FileStream fs = new FileStream(file_name, FileMode.Open))
             {
-                return (List<BitSaver>)format.ReadObject(fs);
+                return (List<Figures>)format.ReadObject(fs);
             }
         }
 
