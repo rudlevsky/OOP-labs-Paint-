@@ -15,16 +15,6 @@ namespace WindowsFormsApp1
         [DataMember]
         private int heigth, width;
 
-     /*   private Square() { }
-        private static Square obj = null;
-        
-        public static Square get()
-        {
-            if (obj == null)
-                obj = new Square();
-            return obj;
-        }*/
-
         public override void draw(Pen pen, Graphics graph)
         {
             heigth = point_y2 - point_y1;

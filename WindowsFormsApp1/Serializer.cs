@@ -13,6 +13,18 @@ namespace WindowsFormsApp1
     class Serializer
     {
 
+        private Serializer() { }
+        private static Serializer obj = null;
+
+        public static Serializer get()
+        {
+            if (obj == null)
+            {
+                obj = new Serializer();
+            }
+            return obj;
+        }
+
         public void to_Serialize(string file_name, List<Figures> flenta, Type[] types)
         {
             DataContractJsonSerializer format = new DataContractJsonSerializer(typeof(List<Figures>), types);

@@ -22,7 +22,7 @@ namespace WindowsFormsApp1
         Triangle triangle1;
         Color pencolor;
         List<Figures> flenta = new List<Figures>();
-        Serializer serializer1 = new Serializer();
+        Serializer serializer1 = Serializer.get();
         Pens pens;
 
         private Type[] types = new Type[]
@@ -199,29 +199,33 @@ namespace WindowsFormsApp1
 
         private void picture_MouseUp(object sender, MouseEventArgs e)
         {
-            mouseDown = false;
-            if (count == 3)
+            if (!choose_btn)
             {
-                bmp = (Bitmap)tempDraw.Clone();
-                to_add(name_tool);
-                stack = flenta.Count;
-            }
-            else
-                count++;
-
-            if (count == 2)
-            {
-                if (stack < flenta.Count)
+                mouseDown = false;
+                if (count == 3)
                 {
-                    bmp = (Bitmap)tempDraw.Clone();                       //Новое изображение сохраняется в текущее
-                    for (int i = flenta.Count - 1; i > stack - 1; i--)
-                    {
-                        flenta.RemoveAt(i);
-                    }
+                    bmp = (Bitmap)tempDraw.Clone();
                     to_add(name_tool);
+                    stack = flenta.Count;
                 }
-                count++;
+                else
+                    count++;
+
+                if (count == 2)
+                {
+                    if (stack < flenta.Count)
+                    {
+                        bmp = (Bitmap)tempDraw.Clone();                       //Новое изображение сохраняется в текущее
+                        for (int i = flenta.Count - 1; i > stack - 1; i--)
+                        {
+                            flenta.RemoveAt(i);
+                        }
+                        to_add(name_tool);
+                    }
+                    count++;
+                }
             }
+
         }
 
         //Присваиваются координаты текущей позиции 
@@ -254,7 +258,6 @@ namespace WindowsFormsApp1
                         ellipse1.point_y1 = e.Y;
                         break;
                     case "square":
-                      //  square1 = Square.get();
                         square1 = new Square();
                         square1.pcolor = pencolor;
                         square1.pen_wid = pen_width;
@@ -275,12 +278,26 @@ namespace WindowsFormsApp1
             {
                 for (int i = 0; i < stack; i++)
                 {
-                   // if (typeof(flenta[i]).GetInterface("ISelected")) {
+                    if (typeof(ISelected).IsAssignableFrom(flenta[i].GetType()))
+                    {
+                        /* if ((flenta[i] as (flenta[i].GetType())).check_coords(e.X, e.Y))
+                         {
+                             MessageBox.Show("works");
+                         }*/
+                    
+                        if (typeof(Pens) == flenta[i].GetType())
+                        {
+                            if((flenta[i] as Pens).check_coords(e.X, e.Y))
+                            {
+                                MessageBox.Show("works");
+                            }
 
-                  //  }
+                        }
+
+                    }
                 }
-                ellipse1.point_x2 = e.X;
-                ellipse1.point_y2 = e.Y;
+
+
             }
         }
 
@@ -357,7 +374,15 @@ namespace WindowsFormsApp1
 
         private void Choose_btn_Click(object sender, EventArgs e)
         {
-            choose_btn = true;
+            if (!choose_btn)
+            {
+                choose_btn = true;
+            }
+            else
+            {
+                choose_btn = false;
+            }
+
         }
 
         //Присваиваются координаты последующей позиции

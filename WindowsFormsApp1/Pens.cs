@@ -42,12 +42,17 @@ namespace WindowsFormsApp1
             graph.Dispose();
         }
 
-        public void check_coords()
+        public bool check_coords(int x_mouse, int y_mouse)
         {
             for (int i = 0; i < points_x1.Count; i++)
             {
-           //     if 
+                if ((x_mouse <= (points_x1[i] + 10)) && (x_mouse >= (points_x1[i] - 10)) && 
+                    (y_mouse <= (points_y1[i] + 10)) && (y_mouse >= (points_y1[i] - 10)))
+                {
+                    return true;
+                }
             }
+            return false;
         }
     }
 }
