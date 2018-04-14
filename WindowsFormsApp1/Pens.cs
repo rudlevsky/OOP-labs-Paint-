@@ -10,7 +10,7 @@ using System.Runtime.Serialization;
 namespace WindowsFormsApp1
 {
     [DataContract]
-    class Pens: Figures, ISelected
+    class Pens: Figures, ISelected, IEdited
     {
         [DataMember]
         private List<int> points_x1 = new List<int>();
@@ -46,12 +46,13 @@ namespace WindowsFormsApp1
         {
             for (int i = 0; i < points_x1.Count; i++)
             {
-                if ((x_mouse <= (points_x1[i] + 10)) && (x_mouse >= (points_x1[i] - 10)) && 
-                    (y_mouse <= (points_y1[i] + 10)) && (y_mouse >= (points_y1[i] - 10)))
+                if ((x_mouse <= (points_x1[i] + pixels)) && (x_mouse >= (points_x1[i] - pixels)) && 
+                    (y_mouse <= (points_y1[i] + pixels)) && (y_mouse >= (points_y1[i] - pixels)))
                 {
                     return true;
                 }
             }
+
             return false;
         }
     }

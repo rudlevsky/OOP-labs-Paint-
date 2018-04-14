@@ -24,6 +24,7 @@ namespace WindowsFormsApp1
         [DataMember]
         public Color pcolor;
 
+        protected const int pixels = 5;
         public abstract void draw(Pen pen, Graphics graph);
         public abstract void auto_draw(Pen pen, Graphics graph);
     }

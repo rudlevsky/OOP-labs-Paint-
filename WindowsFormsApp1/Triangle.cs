@@ -10,7 +10,7 @@ using System.Runtime.Serialization;
 namespace WindowsFormsApp1
 {
     [DataContract]
-    class Triangle : Figures
+    class Triangle : Figures, ISelected, IEdited
     {
         [DataMember]
         private int point_x3;
@@ -51,6 +51,44 @@ namespace WindowsFormsApp1
             graph.DrawPolygon(pen, curvePoints);
             pen.Dispose();
             graph.Dispose();
+        }
+
+        public bool check_coords(int x_mouse, int y_mouse)
+        {
+            double y;
+
+            for (int x = point_x1; x < point_x2; x++)
+            {
+                y = (point_y2 - point_y1) * (x - point_x1) / (point_x2 - point_x1) + point_y1;
+
+                if ((x_mouse <= (x + pixels)) && (x_mouse >= (x - pixels)) &&
+                (y_mouse <= (y + pixels)) && (y_mouse >= (y - pixels)))
+                {
+                    return true;
+                }
+            }
+
+            for (int x = point_x3; x < point_x1; x++)
+            {
+                y = (point_y2 - point_y1) * (x - point_x1) / (point_x3 - point_x1) + point_y1;
+
+                if ((x_mouse <= (x + pixels)) && (x_mouse >= (x - pixels)) &&
+                (y_mouse <= (y + pixels)) && (y_mouse >= (y - pixels)))
+                {
+                    return true;
+                }
+            }
+
+            for (int x = point_x3; x < point_x2; x++)
+            {
+                if ((x_mouse <= (x + pixels)) && (x_mouse >= (x - pixels)) &&
+                (y_mouse <= (point_y2 + pixels)) && (y_mouse >= (point_y2 - pixels)))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

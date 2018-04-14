@@ -24,6 +24,7 @@ namespace WindowsFormsApp1
         List<Figures> flenta = new List<Figures>();
         Serializer serializer1 = Serializer.get();
         Pens pens;
+       // private static PaintEventArgs pEventArg = null;
 
         private Type[] types = new Type[]
         {
@@ -42,6 +43,8 @@ namespace WindowsFormsApp1
         private int stack = 0;
         private byte count = 3;
         private bool choose_btn = false;
+        private int obj_selected = -1;
+        private string[] img_names = { "pen.png","l.png","pr.png","oval.png","Triangle.png" };
 
         public Form1()
         {
@@ -109,9 +112,31 @@ namespace WindowsFormsApp1
         //Выбор цвета элементов
         private void change_Click(object sender, EventArgs e)
         {
-            ColorDialog clr = new ColorDialog();
-            if (clr.ShowDialog() == DialogResult.OK)
-                pencolor = clr.Color;
+            if (!choose_btn)
+            {
+                ColorDialog clr = new ColorDialog();
+                if (clr.ShowDialog() == DialogResult.OK)
+                {
+                    pencolor = clr.Color;
+                }
+                clr.Dispose();
+            }
+            else
+            {
+                if (obj_selected != -1)
+                {
+                    if (typeof(IEdited).IsAssignableFrom(flenta[obj_selected].GetType()))
+                    {
+                        ColorDialog clr = new ColorDialog();
+                        if (clr.ShowDialog() == DialogResult.OK)
+                        {
+                            flenta[obj_selected].pcolor = clr.Color;
+                            to_write(flenta,stack);
+                        }
+                        clr.Dispose();
+                    }
+                }
+            }
         }
 
         private void picture_Paint(object sender, PaintEventArgs e)
@@ -172,6 +197,7 @@ namespace WindowsFormsApp1
                         }
                         break;
                 }
+              //  pEventArg = e;
             }
         }
 
@@ -225,7 +251,6 @@ namespace WindowsFormsApp1
                     count++;
                 }
             }
-
         }
 
         //Присваиваются координаты текущей позиции 
@@ -276,28 +301,98 @@ namespace WindowsFormsApp1
             }
             else
             {
+                bool flag = false;
                 for (int i = 0; i < stack; i++)
                 {
                     if (typeof(ISelected).IsAssignableFrom(flenta[i].GetType()))
-                    {
-                        /* if ((flenta[i] as (flenta[i].GetType())).check_coords(e.X, e.Y))
-                         {
-                             MessageBox.Show("works");
-                         }*/
-                    
+                    {                  
                         if (typeof(Pens) == flenta[i].GetType())
                         {
                             if((flenta[i] as Pens).check_coords(e.X, e.Y))
                             {
-                                MessageBox.Show("works");
+                                obj_selected = i;
+                                clean_btns();
+                                pen.Load("pen_r.png");
+                                flag = true;
                             }
-
                         }
 
+                        if (typeof(Square) == flenta[i].GetType())
+                        {
+                            if ((flenta[i] as Square).check_coords(e.X, e.Y))
+                            {
+                                obj_selected = i;
+                                clean_btns();
+                                square.Load("pr_r.png");
+                                flag = true;
+                            }
+                        }
+
+                        if (typeof(Line) == flenta[i].GetType())
+                        {
+                            if ((flenta[i] as Line).check_coords(e.X, e.Y))
+                            {
+                                obj_selected = i;
+                                clean_btns();
+                                line.Load("l_r.png");
+                                flag = true;
+                            }
+                        }
+
+                        if (typeof(Triangle) == flenta[i].GetType())
+                        {
+                            if ((flenta[i] as Triangle).check_coords(e.X, e.Y))
+                            {
+                                obj_selected = i;
+                                clean_btns();
+                                triangle.Load("Triangle_r.png");
+                                flag = true;
+                            }
+                        }
+
+                        if (typeof(Ellipse) == flenta[i].GetType())
+                        {
+                            if ((flenta[i] as Ellipse).check_coords(e.X, e.Y))
+                            {
+                                obj_selected = i;
+                                clean_btns();
+                                oval.Load("oval_r.png");
+                                flag = true;
+                            }
+                        }
                     }
                 }
 
+                if (!flag)
+                {
+                    obj_selected = -1;
+                    clean_btns();
+                }
+            }
+        }
 
+        private void clean_btns()
+        {
+            for (int i = 0; i < img_names.Length; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        pen.Load(img_names[i]);
+                        break;
+                    case 1:
+                        line.Load(img_names[i]);
+                        break;
+                    case 2:
+                        square.Load(img_names[i]);
+                        break;
+                    case 3:
+                        oval.Load(img_names[i]);
+                        break;
+                    case 4:
+                        triangle.Load(img_names[i]);
+                        break;
+                }
             }
         }
 
@@ -317,12 +412,16 @@ namespace WindowsFormsApp1
 
         private void to_write(List<Figures> flenta, int stack)
         {
+            bmp.Dispose();
+            bmp = new Bitmap(picture.Width, picture.Height);
             for (int i=0; i<stack; i++)
             {
                 Graphics graph = Graphics.FromImage(bmp);
                 pen1 = new Pen(flenta[i].pcolor, flenta[i].pen_wid);
                 flenta[i].auto_draw(pen1,graph);
             }
+          
+           // picture_Paint(this, );
         }
 
         private void btn_Deserializer_Click(object sender, EventArgs e)
@@ -337,9 +436,8 @@ namespace WindowsFormsApp1
                 flenta.Clear();
                 flenta = serializer1.Deserialize(dlg.FileName, types);
                 stack = flenta.Count;
-                bmp.Dispose();
-                bmp = new Bitmap(picture.Width, picture.Height);
                 to_write(flenta, stack);
+              //  picture_Paint(this, pEventArg);
                 count = 1;
             }
             dlg.Dispose();
@@ -352,8 +450,6 @@ namespace WindowsFormsApp1
                 if (stack != 1)
                 {
                     stack--;
-                    bmp.Dispose();
-                    bmp = new Bitmap(picture.Width, picture.Height);
                     to_write(flenta, stack);
                     count = 0;
                 }
@@ -364,8 +460,6 @@ namespace WindowsFormsApp1
                 if (stack != flenta.Count)
                 {
                     stack++;
-                    bmp.Dispose();
-                    bmp = new Bitmap(picture.Width, picture.Height);
                     to_write(flenta, stack);
                     count = 0;
                 }
@@ -381,8 +475,9 @@ namespace WindowsFormsApp1
             else
             {
                 choose_btn = false;
+                clean_btns();
+                obj_selected = -1;
             }
-
         }
 
         //Присваиваются координаты последующей позиции
