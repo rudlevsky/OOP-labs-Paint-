@@ -42,7 +42,8 @@
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.btn_Deserializer = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
-            this.Choose_btn = new System.Windows.Forms.Button();
+            this.radio_choose = new System.Windows.Forms.RadioButton();
+            this.radio_paint = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.pen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.square)).BeginInit();
@@ -54,7 +55,7 @@
             // 
             // clear
             // 
-            this.clear.Location = new System.Drawing.Point(732, 412);
+            this.clear.Location = new System.Drawing.Point(732, 431);
             this.clear.Name = "clear";
             this.clear.Size = new System.Drawing.Size(109, 31);
             this.clear.TabIndex = 2;
@@ -119,7 +120,7 @@
             // 
             // change
             // 
-            this.change.Location = new System.Drawing.Point(732, 373);
+            this.change.Location = new System.Drawing.Point(732, 392);
             this.change.Name = "change";
             this.change.Size = new System.Drawing.Size(109, 33);
             this.change.TabIndex = 11;
@@ -151,7 +152,7 @@
             // 
             // btn_serialize
             // 
-            this.btn_serialize.Location = new System.Drawing.Point(732, 449);
+            this.btn_serialize.Location = new System.Drawing.Point(732, 468);
             this.btn_serialize.Name = "btn_serialize";
             this.btn_serialize.Size = new System.Drawing.Size(109, 31);
             this.btn_serialize.TabIndex = 14;
@@ -161,7 +162,7 @@
             // 
             // btn_Deserializer
             // 
-            this.btn_Deserializer.Location = new System.Drawing.Point(732, 486);
+            this.btn_Deserializer.Location = new System.Drawing.Point(732, 505);
             this.btn_Deserializer.Name = "btn_Deserializer";
             this.btn_Deserializer.Size = new System.Drawing.Size(109, 31);
             this.btn_Deserializer.TabIndex = 15;
@@ -173,22 +174,37 @@
             // 
             this.openFileDialog.FileName = "openFileDialog1";
             // 
-            // Choose_btn
+            // radio_choose
             // 
-            this.Choose_btn.Location = new System.Drawing.Point(732, 336);
-            this.Choose_btn.Name = "Choose_btn";
-            this.Choose_btn.Size = new System.Drawing.Size(109, 33);
-            this.Choose_btn.TabIndex = 16;
-            this.Choose_btn.Text = "Choose shape";
-            this.Choose_btn.UseVisualStyleBackColor = true;
-            this.Choose_btn.Click += new System.EventHandler(this.Choose_btn_Click);
+            this.radio_choose.AutoSize = true;
+            this.radio_choose.Location = new System.Drawing.Point(732, 363);
+            this.radio_choose.Name = "radio_choose";
+            this.radio_choose.Size = new System.Drawing.Size(120, 21);
+            this.radio_choose.TabIndex = 16;
+            this.radio_choose.TabStop = true;
+            this.radio_choose.Text = "Choose shape";
+            this.radio_choose.UseVisualStyleBackColor = true;
+            this.radio_choose.CheckedChanged += new System.EventHandler(this.radio_choose_CheckedChanged);
+            // 
+            // radio_paint
+            // 
+            this.radio_paint.AutoSize = true;
+            this.radio_paint.Location = new System.Drawing.Point(732, 336);
+            this.radio_paint.Name = "radio_paint";
+            this.radio_paint.Size = new System.Drawing.Size(61, 21);
+            this.radio_paint.TabIndex = 17;
+            this.radio_paint.TabStop = true;
+            this.radio_paint.Text = "Paint";
+            this.radio_paint.UseVisualStyleBackColor = true;
+            this.radio_paint.CheckedChanged += new System.EventHandler(this.radio_paint_CheckedChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(867, 548);
-            this.Controls.Add(this.Choose_btn);
+            this.Controls.Add(this.radio_paint);
+            this.Controls.Add(this.radio_choose);
             this.Controls.Add(this.btn_Deserializer);
             this.Controls.Add(this.btn_serialize);
             this.Controls.Add(this.triangle);
@@ -233,7 +249,8 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Button btn_Deserializer;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.Button Choose_btn;
+        private System.Windows.Forms.RadioButton radio_choose;
+        private System.Windows.Forms.RadioButton radio_paint;
     }
 }
 

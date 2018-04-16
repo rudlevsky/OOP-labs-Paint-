@@ -8,6 +8,6 @@ namespace WindowsFormsApp1
 {
     interface ISelected
     {
-        bool check_coords(int x, int y);
+        bool check_coords(int x_cord, int y_cord);
     }
 }

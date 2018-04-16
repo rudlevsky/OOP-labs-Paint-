@@ -24,7 +24,15 @@ namespace WindowsFormsApp1
         [DataMember]
         public Color pcolor;
 
+        [DataMember]
+        public bool flag_clean = false;
+
+        // pixels which should be added for checking points of an object
         protected const int pixels = 5;
+
+        // pixels which should be added for changing a size of an object
+        protected const int change_size = 10;
+
         public abstract void draw(Pen pen, Graphics graph);
         public abstract void auto_draw(Pen pen, Graphics graph);
     }

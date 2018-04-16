@@ -15,6 +15,38 @@ namespace WindowsFormsApp1
         [DataMember]
         private int heigth, width;
 
+        // method for changing a size of an object
+        public void chng_size(string key_name)
+        {
+            switch (key_name)
+            {
+                case "num_2":
+                    point_y2 += change_size;
+                    break;
+                case "num_4":
+                    point_x2 -= change_size;
+                    break;
+                case "num_6":
+                    point_x2 += change_size;
+                    break;
+                case "num_8":
+                    point_y2 -= change_size;
+                    break;
+            }
+            heigth = point_y2 - point_y1;
+            width = point_x2 - point_x1;
+        }
+
+        // method for moving an object
+        public void rewrite(int x_cord, int y_cord)
+        {
+            point_x2 = point_x2 - (point_x1 - x_cord);
+            point_y2 = point_y2 - (point_y1 - y_cord);
+            point_x1 = x_cord;
+            point_y1 = y_cord;
+        }
+
+        // method for drawing an object
         public override void draw(Pen pen, Graphics graph)
         {
             heigth = point_y2 - point_y1;
@@ -24,6 +56,7 @@ namespace WindowsFormsApp1
             graph.Dispose();
         }
 
+        // method for automatical drawing an object
         public override void auto_draw(Pen pen, Graphics graph)
         {
             graph.DrawRectangle(pen, point_x1, point_y1, width, heigth);
@@ -31,6 +64,7 @@ namespace WindowsFormsApp1
             graph.Dispose();
         }
 
+        // method for checking the coordinates of an object
         public bool check_coords(int x_mouse, int y_mouse)
         {
             int value = point_y1;
@@ -60,7 +94,6 @@ namespace WindowsFormsApp1
                 }
                 value = point_x2;
             }
-
             return false;
         }
     }

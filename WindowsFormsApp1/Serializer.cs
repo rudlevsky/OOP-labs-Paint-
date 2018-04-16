@@ -12,7 +12,7 @@ namespace WindowsFormsApp1
 {
     class Serializer
     {
-
+        // singleton
         private Serializer() { }
         private static Serializer obj = null;
 
@@ -24,7 +24,9 @@ namespace WindowsFormsApp1
             }
             return obj;
         }
+        // singleton
 
+        // mathod for serialization
         public void to_Serialize(string file_name, List<Figures> flenta, Type[] types)
         {
             DataContractJsonSerializer format = new DataContractJsonSerializer(typeof(List<Figures>), types);
@@ -34,6 +36,7 @@ namespace WindowsFormsApp1
             }
         }
 
+        // method for deserialization
         public List<Figures> Deserialize(string file_name, Type[] types)
         {
             DataContractJsonSerializer format = new DataContractJsonSerializer(typeof(List<Figures>), types);
