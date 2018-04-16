@@ -10,7 +10,7 @@ using System.Runtime.Serialization;
 namespace WindowsFormsApp1
 {
     [DataContract]
-    class Pens: Figures, ISelected, IEdited
+    public class Pens: Figures, ISelected, IEdited
     {
         [DataMember]
         private List<int> points_x1 = new List<int>();

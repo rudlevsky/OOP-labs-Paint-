@@ -10,7 +10,7 @@ using System.IO;
 
 namespace WindowsFormsApp1
 {
-    class Serializer
+    public class Serializer
     {
         // singleton
         private Serializer() { }

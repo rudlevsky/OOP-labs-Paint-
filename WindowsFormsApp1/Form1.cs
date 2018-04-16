@@ -16,14 +16,11 @@ namespace WindowsFormsApp1
     {
         Bitmap bmp, tempDraw;
         Pen pen1;
-        Line line1;
-        Square square1;
-        Ellipse ellipse1;
-        Triangle triangle1;
         Color pencolor;
+        Figures figure;
+        Factory factory;                              // factory of types
         List<Figures> flenta = new List<Figures>();   // stack of all objects
         Serializer serializer1 = Serializer.get();    // gets an object (singleton)
-        Pens pens;
 
         private Type[] types = new Type[]             // types for serialization
         {
@@ -50,6 +47,7 @@ namespace WindowsFormsApp1
             pencolor = Color.Red;
             bmp = new Bitmap(picture.Width, picture.Height);
             radio_paint.Checked = true;
+            name_tool = "pen";
         }
 
         // clears a bitmap
@@ -148,85 +146,23 @@ namespace WindowsFormsApp1
 
         private void picture_Paint(object sender, PaintEventArgs e)
         {
-            if (radio_paint.Checked)
+            if (radio_paint.Checked && (tempDraw != null))
             {
-                switch (name_tool)
+                if (name_tool != "pen")
                 {
-                    case "line":
-                        if (tempDraw != null)
-                        {
-                            tempDraw = (Bitmap)bmp.Clone();                    // copy current bitmap
-                            Graphics graph = Graphics.FromImage(tempDraw);
-                            pen1 = new Pen(pencolor, pen_width);
-                            line1.draw(pen1, graph);
-                            e.Graphics.DrawImageUnscaled(tempDraw, 0, 0);      // paint an image                        
-                        }
-                        break;
-                    case "pen":
-                        if (tempDraw != null)
-                        {
-                            Graphics graph = Graphics.FromImage(tempDraw);
-                            pen1 = new Pen(pencolor, pen_width);
-                            pens.draw(pen1, graph);
-                            e.Graphics.DrawImageUnscaled(tempDraw, 0, 0);
-                            pens.point_x1 = pens.point_x2;
-                            pens.point_y1 = pens.point_y2;                        
-                        }
-                        break;
-                    case "oval":
-                        if (tempDraw != null)
-                        {
-                            tempDraw = (Bitmap)bmp.Clone();
-                            Graphics graph = Graphics.FromImage(tempDraw);
-                            pen1 = new Pen(pencolor, pen_width);
-                            ellipse1.draw(pen1, graph);
-                            e.Graphics.DrawImageUnscaled(tempDraw, 0, 0);
-                        }
-                        break;
-                    case "square":
-                        if (tempDraw != null)
-                        {
-                            tempDraw = (Bitmap)bmp.Clone();
-                            Graphics graph = Graphics.FromImage(tempDraw);
-                            pen1 = new Pen(pencolor, pen_width);
-                            square1.draw(pen1, graph);
-                            e.Graphics.DrawImageUnscaled(tempDraw, 0, 0);
-                        }
-                        break;
-                    case "triangle":
-                        if (tempDraw != null)
-                        {
-                            tempDraw = (Bitmap)bmp.Clone();
-                            Graphics graph = Graphics.FromImage(tempDraw);
-                            pen1 = new Pen(pencolor, pen_width);
-                            triangle1.draw(pen1, graph);
-                            e.Graphics.DrawImageUnscaled(tempDraw, 0, 0);
-                        }
-                        break;
+                    tempDraw = (Bitmap)bmp.Clone();                // copy current bitmap
                 }
-            }
-        }
+               
+                Graphics graph = Graphics.FromImage(tempDraw);
+                pen1 = new Pen(pencolor, pen_width);
+                figure.draw(pen1, graph);
+                e.Graphics.DrawImageUnscaled(tempDraw, 0, 0);      // paint an image     
 
-        // adds objects to stack
-        private void to_add(string name_tool)
-        {
-            switch (name_tool)
-            {
-                case "line":
-                    flenta.Add(line1);
-                    break;
-                case "pen":
-                    flenta.Add(pens);
-                    break;
-                case "oval":
-                    flenta.Add(ellipse1);
-                    break;
-                case "square":
-                    flenta.Add(square1);
-                    break;
-                case "triangle":
-                    flenta.Add(triangle1);
-                    break;
+                if (name_tool == "pen")
+                {
+                    figure.point_x1 = figure.point_x2;
+                    figure.point_y1 = figure.point_y2;
+                }
             }
         }
 
@@ -248,7 +184,7 @@ namespace WindowsFormsApp1
                     }
                     flag_xy = false;
                 }
-                to_add(name_tool);
+                flenta.Add(figure);
                 stack = flenta.Count;
             }
         }
@@ -280,41 +216,30 @@ namespace WindowsFormsApp1
                 switch (name_tool)
                 {
                     case "pen":
-                        pens = new Pens();
-                        pens.pcolor = pencolor;
-                        pens.pen_wid = pen_width;
-                        pens.point_x1 = e.X;
-                        pens.point_y1 = e.Y;
+                        factory = new FPens();
+                        figure = factory.Create();
                         break;
                     case "line":
-                        line1 = new Line();
-                        line1.pcolor = pencolor;
-                        line1.pen_wid = pen_width;
-                        line1.point_x1 = e.X;
-                        line1.point_y1 = e.Y;
+                        factory = new FLine();
+                        figure = factory.Create();
                         break;
                     case "oval":
-                        ellipse1 = new Ellipse();
-                        ellipse1.pcolor = pencolor;
-                        ellipse1.pen_wid = pen_width;
-                        ellipse1.point_x1 = e.X;
-                        ellipse1.point_y1 = e.Y;
+                        factory = new FEllipse();
+                        figure = factory.Create();
                         break;
                     case "square":
-                        square1 = new Square();
-                        square1.pcolor = pencolor;
-                        square1.pen_wid = pen_width;
-                        square1.point_x1 = e.X;
-                        square1.point_y1 = e.Y;
+                        factory = new FSquare();
+                        figure = factory.Create();
                         break;
                     case "triangle":
-                        triangle1 = new Triangle();
-                        triangle1.pcolor = pencolor;
-                        triangle1.pen_wid = pen_width;
-                        triangle1.point_x1 = e.X;
-                        triangle1.point_y1 = e.Y;
+                        factory = new FTriangle();
+                        figure = factory.Create();
                         break;
                 }
+                figure.pcolor = pencolor;
+                figure.pen_wid = pen_width;
+                figure.point_x1 = e.X;
+                figure.point_y1 = e.Y;
                 tempDraw = (Bitmap)bmp.Clone();
             }
             else
@@ -554,11 +479,6 @@ namespace WindowsFormsApp1
                                 break;
                         }
 
-                        if (typeof(Pens) == flenta[obj_selected].GetType())
-                        {
-                            (flenta[obj_selected] as Pens).chng_size(key_name);
-                        }
-
                         if (typeof(Square) == flenta[obj_selected].GetType())
                         {
                             (flenta[obj_selected] as Square).chng_size(key_name);
@@ -601,36 +521,13 @@ namespace WindowsFormsApp1
         // coordinates assign to the next position
         private void picture_MouseMove(object sender, MouseEventArgs e)
         {
-            if (radio_paint.Checked)
+            if (radio_paint.Checked && mouseDown)
             {
-                if (mouseDown)
-                {
-                    switch (name_tool)
-                    {
-                        case "pen":
-                            pens.point_x2 = e.X;
-                            pens.point_y2 = e.Y;
-                            break;
-                        case "line":
-                            line1.point_x2 = e.X;
-                            line1.point_y2 = e.Y;
-                            break;
-                        case "oval":
-                            ellipse1.point_x2 = e.X;
-                            ellipse1.point_y2 = e.Y;
-                            break;
-                        case "square":
-                            square1.point_x2 = e.X;
-                            square1.point_y2 = e.Y;
-                            break;
-                        case "triangle":
-                            triangle1.point_x2 = e.X;
-                            triangle1.point_y2 = e.Y;
-                            break;
-                    }
-                    picture.Refresh();
-                }
-            } else
+                figure.point_x2 = e.X;
+                figure.point_y2 = e.Y;
+                picture.Refresh(); 
+            }
+            else
             {
                 if (count == -1)
                 {

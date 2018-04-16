@@ -10,7 +10,7 @@ using System.Runtime.Serialization;
 namespace WindowsFormsApp1
 {
     [DataContract]
-    class Triangle : Figures, ISelected, IEdited
+    public class Triangle : Figures, ISelected, IEdited
     {
         [DataMember]
         private int point_x3;
