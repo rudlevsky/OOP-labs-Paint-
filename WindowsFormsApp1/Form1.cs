@@ -324,34 +324,18 @@ namespace WindowsFormsApp1
         // clears all buttons by default
         private void clean_btns()
         {
-            for (int i = 0; i < img_names.Length; i++)
-            { 
-                try
-                {
-                    switch (i)
-                    {
-                        case 0:
-                            pen.Load(img_names[i]);
-                            break;
-                        case 1:
-                            line.Load(img_names[i]);
-                            break;
-                        case 2:
-                            square.Load(img_names[i]);
-                            break;
-                        case 3:
-                            oval.Load(img_names[i]);
-                            break;
-                        case 4:
-                            triangle.Load(img_names[i]);
-                            break;
-                    }
-                }
-                catch
-                {
-                    MessageBox.Show("Image was not found. Reinstall the program.");
-                    Environment.Exit(0);
-                }
+            try
+            {
+                pen.Load(img_names[0]);
+                line.Load(img_names[1]);
+                square.Load(img_names[2]);
+                oval.Load(img_names[3]);
+                triangle.Load(img_names[4]);
+            }
+            catch
+            {
+                MessageBox.Show("Image was not found. Reinstall the program.");
+                Environment.Exit(0);
             }
         }
 
@@ -477,6 +461,11 @@ namespace WindowsFormsApp1
                             case Keys.NumPad8:
                                 key_name = "num_8";
                                 break;
+                        }
+
+                        if (typeof(Pens) == flenta[obj_selected].GetType())
+                        {
+                            (flenta[obj_selected] as Pens).chng_size(key_name);
                         }
 
                         if (typeof(Square) == flenta[obj_selected].GetType())

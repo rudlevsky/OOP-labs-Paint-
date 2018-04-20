@@ -21,7 +21,62 @@ namespace WindowsFormsApp1
         [DataMember]
         private List<int> points_y2 = new List<int>();
 
-        public void chng_size(string key_name) { }
+        private int wid = 0;
+        private int hei = 0;
+
+        private void find_hei()
+        {
+            for (int i = 0; i < points_y1.Count; i++)
+            {
+                if (points_y1[i] > hei)
+                {
+                    hei = points_y1[i];
+                }
+            }
+        }
+
+        private void find_wid()
+        {
+            for (int i = 0; i < points_x1.Count; i++)
+            {
+                if (points_x1[i] > wid)
+                {
+                    wid = points_x1[i];
+                }
+            }
+        }
+
+        public void chng_size(string key_name)
+        {
+            if (wid == 0)
+            {
+                find_wid();
+            }
+
+            if (hei == 0)
+            {
+                find_hei();
+            }
+
+            switch (key_name)
+            {
+                case "num_2":
+                    for (int i = 0; i < points_x1.Count; i++)
+                    {
+                        points_y1[i] = points_y1[i] * (points_y1[i] + change_size) / hei;
+                        points_y2[i] = points_y2[i] * (points_y2[i] + change_size) / hei;
+                    }
+                    break;
+                case "num_6":
+                    for (int i = 0; i < points_x1.Count; i++)
+                    {
+                        points_x1[i] = points_x1[i] * (points_x1[i] + change_size) / wid;
+                        points_x2[i] = points_x2[i] * (points_x2[i] + change_size) / wid;
+                    }
+                    break;
+            }
+
+        }
 
         // method for moving an object
         public void rewrite(int x_cord, int y_cord)
