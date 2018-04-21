@@ -63,8 +63,15 @@ namespace WindowsFormsApp1
                 case "num_2":
                     for (int i = 0; i < points_x1.Count; i++)
                     {
-                        points_y1[i] = points_y1[i] * (points_y1[i] + change_size) / hei;
-                        points_y2[i] = points_y2[i] * (points_y2[i] + change_size) / hei;
+                        points_y1[i] = points_y1[i] * hei / (points_y1[i] + change_size);
+                        points_y2[i] = points_y2[i] * hei / (points_y2[i] + change_size);
+                    }
+                    break;
+                case "num_4":
+                    for (int i = 0; i < points_x1.Count; i++)
+                    {
+                        points_x1[i] = points_x1[i] * wid / (points_x1[i] + change_size);
+                        points_x2[i] = points_x2[i] * wid / (points_x2[i] + change_size);
                     }
                     break;
                 case "num_6":
@@ -74,8 +81,14 @@ namespace WindowsFormsApp1
                         points_x2[i] = points_x2[i] * (points_x2[i] + change_size) / wid;
                     }
                     break;
+                case "num_8":
+                    for (int i = 0; i < points_x1.Count; i++)
+                    {
+                        points_y1[i] = points_y1[i] * (points_y1[i] + change_size) / hei;
+                        points_y2[i] = points_y2[i] * (points_y2[i] + change_size) / hei;
+                    }
+                    break;
             }
-
         }
 
         // method for moving an object
