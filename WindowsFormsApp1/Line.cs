@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
-using System.Runtime.Serialization.Json;
+﻿using System.Drawing;
 using System.Runtime.Serialization;
 
 namespace WindowsFormsApp1
@@ -13,7 +7,7 @@ namespace WindowsFormsApp1
     public class Line: Figures, ISelected, IEdited
     {       
         // method for changing a size of an object
-        public void chng_size(string key_name)
+        public override void chng_size(string key_name)
         {
             if (point_x2 - point_x1 > 0)
             {
@@ -53,7 +47,7 @@ namespace WindowsFormsApp1
         }
 
         // method for moving an object
-        public void rewrite(int x_cord, int y_cord)
+        public override void rewrite(int x_cord, int y_cord)
         {
             point_x2 = point_x2 - (point_x1 - x_cord);
             point_y2 = point_y2 - (point_y1 - y_cord);
@@ -65,20 +59,16 @@ namespace WindowsFormsApp1
         public override void draw(Pen pen, Graphics graph)
         {
             graph.DrawLine(pen, point_x1, point_y1, point_x2, point_y2);
-            pen.Dispose();
-            graph.Dispose();
         }
 
         // method for automatical drawing an object
         public override void auto_draw(Pen pen, Graphics graph)
         {
             graph.DrawLine(pen, point_x1, point_y1, point_x2, point_y2);
-            pen.Dispose();
-            graph.Dispose();
         }
 
         // method for checking the coordinates of an object
-        public bool check_coords(int x_mouse, int y_mouse)
+        public override bool check_coords(int x_mouse, int y_mouse)
         {
             double y;
             int param_a, param_b;

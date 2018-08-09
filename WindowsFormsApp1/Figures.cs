@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
-using System.Runtime.Serialization.Json;
+﻿using System.Drawing;
 using System.Runtime.Serialization;
 
 namespace WindowsFormsApp1
@@ -35,5 +29,8 @@ namespace WindowsFormsApp1
 
         public abstract void draw(Pen pen, Graphics graph);
         public abstract void auto_draw(Pen pen, Graphics graph);
+        public abstract void chng_size(string key_name);
+        public abstract void rewrite(int x_cord, int y_cord);
+        public abstract bool check_coords(int x_mouse, int y_mouse);
     }
 }

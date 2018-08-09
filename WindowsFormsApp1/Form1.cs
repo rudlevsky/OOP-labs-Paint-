@@ -1,14 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Runtime.Serialization.Json;
-using System.Runtime.Serialization;
 
 namespace WindowsFormsApp1
 {
@@ -17,20 +10,9 @@ namespace WindowsFormsApp1
         Bitmap bmp, tempDraw;
         Pen pen1;
         Color pencolor;
-        Figures figure;
-        Factory factory;                              // factory of types
+        Figures figure;                             
         List<Figures> flenta = new List<Figures>();   // stack of all objects
         Serializer serializer1 = Serializer.get();    // gets an object (singleton)
-
-        private Type[] types = new Type[]             // types for serialization
-        {
-            typeof(Pens),
-            typeof(Line),
-            typeof(Ellipse),
-            typeof(Square),
-            typeof(Triangle),
-            typeof(Figures)
-        };
 
         private bool mouseDown = false, flag_xy = false;
         private int pen_width;
@@ -120,11 +102,7 @@ namespace WindowsFormsApp1
             if (radio_paint.Checked)
             {
                 ColorDialog clr = new ColorDialog();
-                if (clr.ShowDialog() == DialogResult.OK)
-                {
-                    pencolor = clr.Color;
-                }
-                clr.Dispose();
+                if (clr.ShowDialog() == DialogResult.OK) pencolor = clr.Color;
             }
             else
             {
@@ -138,7 +116,6 @@ namespace WindowsFormsApp1
                             flenta[obj_selected].pcolor = clr.Color;
                             to_write(flenta,stack);
                         }
-                        clr.Dispose();
                     }
                 }
             }
@@ -157,12 +134,6 @@ namespace WindowsFormsApp1
                 pen1 = new Pen(pencolor, pen_width);
                 figure.draw(pen1, graph);
                 e.Graphics.DrawImageUnscaled(tempDraw, 0, 0);      // paint an image     
-
-                if (name_tool == "pen")
-                {
-                    figure.point_x1 = figure.point_x2;
-                    figure.point_y1 = figure.point_y2;
-                }
             }
         }
 
@@ -194,17 +165,8 @@ namespace WindowsFormsApp1
         {
             obj_selected = i;
             clean_btns();
-
             flag = true;
-
-            if (count == i)
-            {
-                count = -1;
-            }
-            else
-            {
-                count = i;
-            }
+            count = (count == i) ? -1 : i;
         }
 
         // takes coordinates of the position
@@ -216,24 +178,19 @@ namespace WindowsFormsApp1
                 switch (name_tool)
                 {
                     case "pen":
-                        factory = new FPens();
-                        figure = factory.Create();
+                        figure = new Pens();
                         break;
                     case "line":
-                        factory = new FLine();
-                        figure = factory.Create();
+                        figure = new Line();
                         break;
                     case "oval":
-                        factory = new FEllipse();
-                        figure = factory.Create();
+                        figure = new Ellipse();
                         break;
                     case "square":
-                        factory = new FSquare();
-                        figure = factory.Create();
+                        figure = new Square();
                         break;
                     case "triangle":
-                        factory = new FTriangle();
-                        figure = factory.Create();
+                        figure = new Triangle();
                         break;
                 }
                 figure.pcolor = pencolor;
@@ -245,12 +202,8 @@ namespace WindowsFormsApp1
             else
             {
                 bool flag = false;
-
-                if (count == -1)
-                {
-                    count = -2;
-                }
-
+                if (count == -1) count = -2;
+                
                 // finds a nessesary object
                 for (int i = 0; i < stack; i++)
                 {
@@ -258,49 +211,15 @@ namespace WindowsFormsApp1
                     {                  
                         try
                         {
-                            if (typeof(Pens) == flenta[i].GetType())
+                            if(flenta[i].check_coords(e.X, e.Y))
                             {
-                                if ((flenta[i] as Pens).check_coords(e.X, e.Y))
-                                {
-                                    change_count(i, ref flag);
-                                    pen.Load("pen_r.png");
-                                }
-                            }
+                                change_count(i, ref flag);
 
-                            if (typeof(Square) == flenta[i].GetType())
-                            {
-                                if ((flenta[i] as Square).check_coords(e.X, e.Y))
-                                {
-                                    change_count(i, ref flag);
-                                    square.Load("pr_r.png");
-                                }
-                            }
-
-                            if (typeof(Line) == flenta[i].GetType())
-                            {
-                                if ((flenta[i] as Line).check_coords(e.X, e.Y))
-                                {
-                                    change_count(i, ref flag);
-                                    line.Load("l_r.png");
-                                }
-                            }
-
-                            if (typeof(Triangle) == flenta[i].GetType())
-                            {
-                                if ((flenta[i] as Triangle).check_coords(e.X, e.Y))
-                                {
-                                    change_count(i, ref flag);
-                                    triangle.Load("Triangle_r.png");
-                                }
-                            }
-
-                            if (typeof(Ellipse) == flenta[i].GetType())
-                            {
-                                if ((flenta[i] as Ellipse).check_coords(e.X, e.Y))
-                                {
-                                    change_count(i, ref flag);
-                                    oval.Load("oval_r.png");
-                                }
+                                if (flenta[i] is Pens) pen.Load("pen_r.png");
+                                if (flenta[i] is Square) square.Load("pr_r.png");
+                                if (flenta[i] is Triangle) triangle.Load("Triangle_r.png");
+                                if (flenta[i] is Line) line.Load("l_r.png");
+                                if (flenta[i] is Ellipse) oval.Load("oval_r.png");
                             }
                         }
                         catch
@@ -308,7 +227,6 @@ namespace WindowsFormsApp1
                             MessageBox.Show("Image was not found. Reinstall the program.");
                             Environment.Exit(0);
                         }
-
                     }
                 }
 
@@ -350,15 +268,11 @@ namespace WindowsFormsApp1
             {
                 try
                 {
-                    serializer1.to_Serialize(dlg.FileName, flenta, types);
+                    serializer1.to_Serialize(dlg.FileName, flenta);
                 }
                 catch
                 {
                     MessageBox.Show("File can't be saved");
-                }
-                finally
-                {
-                    dlg.Dispose();
                 }
             }
         }
@@ -395,23 +309,19 @@ namespace WindowsFormsApp1
             {
                 var flenta_save = new List<Figures>();
                 flenta_save = flenta;
+
                 try
                 {
-                    flenta = serializer1.Deserialize(dlg.FileName, types);
+                    flenta = serializer1.Deserialize(dlg.FileName);
                 }
                 catch
                 {
                     MessageBox.Show("File can't be read");
                     flenta = flenta_save;
-                    dlg.Dispose();
                     return;
                 }
-                finally
-                {
-                    stack = flenta.Count;
-                    to_write(flenta, stack);
-                    dlg.Dispose();
-                }
+                stack = flenta.Count;
+                to_write(flenta, stack);          
             }
         }
 
@@ -461,33 +371,9 @@ namespace WindowsFormsApp1
                             case Keys.NumPad8:
                                 key_name = "num_8";
                                 break;
-                        }
-
-                        if (typeof(Pens) == flenta[obj_selected].GetType())
-                        {
-                            (flenta[obj_selected] as Pens).chng_size(key_name);
-                        }
-
-                        if (typeof(Square) == flenta[obj_selected].GetType())
-                        {
-                            (flenta[obj_selected] as Square).chng_size(key_name);
-                        }
-
-                        if (typeof(Line) == flenta[obj_selected].GetType())
-                        {
-                            (flenta[obj_selected] as Line).chng_size(key_name);
-                        }
-
-                        if (typeof(Triangle) == flenta[obj_selected].GetType())
-                        {
-                            (flenta[obj_selected] as Triangle).chng_size(key_name);
-                        }
-
-                        if (typeof(Ellipse) == flenta[obj_selected].GetType())
-                        {
-                            (flenta[obj_selected] as Ellipse).chng_size(key_name);
-                        }
-
+                        }    
+                        
+                        flenta[obj_selected].chng_size(key_name);      
                         to_write(flenta, stack);
                     }
                 }
@@ -522,32 +408,8 @@ namespace WindowsFormsApp1
                 {
                     // object rewrites while moving 
                     if (typeof(IEdited).IsAssignableFrom(flenta[obj_selected].GetType()))
-                    {
-                        if (typeof(Pens) == flenta[obj_selected].GetType())
-                        {
-                            (flenta[obj_selected] as Pens).rewrite(e.X, e.Y);
-                        }
-
-                        if (typeof(Square) == flenta[obj_selected].GetType())
-                        {
-                            (flenta[obj_selected] as Square).rewrite(e.X, e.Y);
-                        }
-
-                        if (typeof(Line) == flenta[obj_selected].GetType())
-                        {
-                            (flenta[obj_selected] as Line).rewrite(e.X, e.Y);
-                        }
-
-                        if (typeof(Triangle) == flenta[obj_selected].GetType())
-                        {
-                            (flenta[obj_selected] as Triangle).rewrite(e.X, e.Y);
-                        }
-
-                        if (typeof(Ellipse) == flenta[obj_selected].GetType())
-                        {
-                            (flenta[obj_selected] as Ellipse).rewrite(e.X, e.Y);
-                        }
-
+                    {                   
+                        flenta[obj_selected].rewrite(e.X, e.Y);
                         to_write(flenta, stack);
                     }             
                 }
